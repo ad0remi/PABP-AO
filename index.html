@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KARMAWIBHANGGA: Relief Nusantara yang Terlupakan</title>
+  <style>
+    @import url('https://fonts.cdnfonts.com/css/garet');
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Display:ital,wdth,wght@1,62.5,700;1,75,700&family=Poppins:wght@400;500;700&display=swap');
+
+    :root {
+      --bg-sand: #e7dfd4;
+      --bg-sand-dark: #ddd3c5;
+      --terracotta: #a24a32;
+      --terracotta-dark: #8c3d27;
+      --ink: #181b19;
+      --ink-black: #000000;
+      --ink-muted: rgba(24, 27, 25, 0.5);
+      --rule-color: rgba(24, 27, 25, 0.45);
+      --white: #ffffff;
+      --font-sans: 'Poppins', 'Garet', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: 'Times New Roman', Times, 'Georgia', serif;
+      --font-display-italic: 'Noto Serif Display', 'Times New Roman', serif;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out-cubic: cubic-bezier(0.65, 0, 0.35, 1);
+      --container-max: 1360px;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      background-color: var(--bg-sand);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+      overflow-x: hidden;
+      scroll-behavior: auto;
+    }
+
+    body {
+      background-color: var(--bg-sand);
+      color: var(--ink);
+      overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    ::selection {
+      background-color: var(--terracotta);
+      color: var(--bg-sand);
+    }
+
+    .grain-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9990;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 100%;
+      background: rgba(162, 74, 50, 0.14);
+      z-index: 9995;
+      pointer-events: none;
+    }
+
+    .scroll-progress__bar {
+      height: 100%;
+      width: 0%;
+      background: var(--terracotta);
+      transform-origin: left center;
+      transition: width 0.08s linear;
+    }
+
+    .custom-cursor {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 32px;
+      height: 32px;
+      margin-left: -16px;
+      margin-top: -16px;
+      border: 1.5px solid rgba(162, 74, 50, 0.55);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transition: width 0.35s var(--ease-out-expo), height 0.35s var(--ease-out-expo), margin 0.35s var(--ease-out-expo), background-color 0.35s var(--ease-out-expo), border-color 0.35s var(--ease-out-expo), opacity 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-sans);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--bg-sand);
+      opacity: 0;
+    }
+
+    .custom-cursor__label {
+      opacity: 0;
+      transform: scale(0.7);
+      transition: opacity 0.25s ease, transform 0.3s var(--ease-out-expo);
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    .custom-cursor.is-active {
+      opacity: 1;
+    }
+
+    .custom-cursor.is-hover-image, .custom-cursor.is-hover-drag {
+      width: 76px;
+      height: 76px;
+      margin-left: -38px;
+      margin-top: -38px;
+      background-color: rgba(162, 74, 50, 0.92);
+      border-color: var(--terracotta);
+      backdrop-filter: blur(4px);
+    }
+
+    .custom-cursor.is-hover-image .custom-cursor__label, .custom-cursor.is-hover-drag .custom-cursor__label {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    @media (hover:none), (pointer:coarse) {
+      .custom-cursor {
+        display: none !important;
+      }
+    }
+
+    .container {
+      width: 100%;
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 0 clamp(24px, 5vw, 72px);
+    }
+
+    .section-divider {
+      width: 100%;
+      height: 1.5px;
+      background-color: var(--rule-color);
+      transform-origin: left center;
+      transform: scaleX(0);
+      transition: transform 1.35s var(--ease-out-expo);
+    }
+
+    .section-divider.center-origin {
+      transform-origin: center center;
+    }
+
+    .section-divider.is-visible {
+      transform: scaleX(1);
+    }
+
+    .reveal-up {
+      opacity: 0;
+      transform: translate3d(0, 44px, 0);
+      transition: opacity 1.05s var(--ease-out-expo), transform 1.05s var(--ease-out-expo);
+      transition-delay: var(--delay, 0s);
+      will-change: opacity, transform;
+    }
+
+    .reveal-up.is-visible {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+
+    .title-mask {
+      display: block;
+      overflow: hidden;
+      padding-bottom: 0.06em;
+      margin-bottom: -0.06em;
+    }
+
+    .title-mask__inner {
+      display: block;
+      transform: translate3d(0, 108%, 0);
+      transition: transform 1.15s var(--ease-out-expo);
+      transition-delay: var(--delay, 0s);
+      will-change: transform;
+    }
+
+    .is-visible .title-mask__inner, .title-mask.is-visible .title-mask__inner {
+      transform: translate3d(0, 0, 0);
+    }
+
+    .media-frame {
+      position: relative;
+      overflow: hidden;
+      background-color: var(--bg-sand-dark);
+      cursor: zoom-in;
+    }
+
+    .media-frame::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-color: var(--bg-sand);
+      transform-origin: bottom center;
+      transform: scaleY(1);
+      transition: transform 1.35s var(--ease-in-out-cubic);
+      transition-delay: var(--delay, 0.05s);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .media-frame.is-visible::after {
+      transform: scaleY(0);
+    }
+
+    .media-frame__img-wrap {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      will-change: transform;
+    }
+
+    .media-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transform: scale(1.08);
+      transition: transform 1.6s var(--ease-out-expo), filter 0.6s ease;
+      will-change: transform;
+    }
+
+    .media-frame.is-visible img {
+      transform: scale(1.03);
+    }
+
+    .media-frame:hover img {
+      transform: scale(1.065);
+    }
+
+    .site-header {
+      padding-top: clamp(28px, 3.8vw, 52px);
+      padding-bottom: clamp(40px, 5vw, 72px);
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 24px;
+      padding-bottom: 16px;
+    }
+
+    .header-brand {
+      font-family: var(--font-sans);
+      font-size: clamp(0.82rem, 1.05vw, 1.05rem);
+      line-height: 1.35;
+      letter-spacing: 0.02em;
+      color: var(--ink-black);
+      text-transform: uppercase;
+    }
+
+    .header-brand__title {
+      display: block;
+      font-weight: 400;
+    }
+
+    .header-brand__subtitle {
+      display: block;
+      font-weight: 700;
+    }
+
+    .header-location {
+      font-family: var(--font-sans);
+      font-size: clamp(0.8rem, 1vw, 1rem);
+      font-weight: 400;
+      letter-spacing: 0.03em;
+      color: var(--ink-muted);
+      text-transform: uppercase;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .header-sub {
+      padding-top: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-archive-tag {
+      font-family: var(--font-sans);
+      font-size: clamp(0.8rem, 1vw, 1rem);
+      font-weight: 400;
+      letter-spacing: 0.03em;
+      color: var(--ink-muted);
+      text-transform: uppercase;
+    }
+
+    .hero-section {
+      padding-top: clamp(20px, 3.5vw, 48px);
+    }
+
+    .hero-title-block {
+      text-align: center;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .hero-title {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: clamp(2.75rem, 6.6vw, 5.75rem);
+      line-height: 1.03;
+      letter-spacing: 0.01em;
+      text-transform: uppercase;
+      color: var(--ink-black);
+    }
+
+    .hero-title__accent {
+      color: var(--terracotta);
+      display: block;
+      margin-top: 0.03em;
+    }
+
+    .hero-divider-wrap {
+      max-width: 780px;
+      margin: clamp(28px, 3.6vw, 46px) auto clamp(24px, 3vw, 38px);
+    }
+
+    .hero-stat {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(18px, 2.5vw, 32px);
+      max-width: 760px;
+      margin: 0 auto clamp(48px, 6.5vw, 88px);
+      text-align: left;
+    }
+
+    .hero-stat__number {
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: clamp(2.8rem, 4.8vw, 4.25rem);
+      line-height: 1;
+      color: var(--terracotta);
+      flex-shrink: 0;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .hero-stat__desc {
+      font-family: var(--font-sans);
+      font-size: clamp(0.85rem, 1.12vw, 1.08rem);
+      font-weight: 400;
+      line-height: 1.45;
+      letter-spacing: 0.015em;
+      color: var(--ink-black);
+      text-transform: uppercase;
+    }
+
+    .hero-banner {
+      position: relative;
+      width: 100%;
+      height: clamp(380px, 64vw, 840px);
+      overflow: hidden;
+    }
+
+    .hero-banner .media-frame {
+      width: 100%;
+      height: 100%;
+    }
+
+    .hero-banner__gradient {
+      position: absolute;
+      inset: auto 0 0 0;
+      height: 38%;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.62) 0%, rgba(0, 0, 0, 0) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .hero-banner__caption-wrap {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: clamp(22px, 3.5vw, 44px);
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .hero-banner__caption {
+      font-family: var(--font-sans);
+      font-size: clamp(0.82rem, 1.05vw, 1.02rem);
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: var(--bg-sand);
+      text-transform: uppercase;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.65);
+    }
+
+    .section-tag {
+      font-family: var(--font-sans);
+      font-size: clamp(0.85rem, 1.05vw, 1.05rem);
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: var(--ink-muted);
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: clamp(22px, 2.8vw, 36px);
+    }
+
+    .section-heading-serif {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: clamp(2.35rem, 5.2vw, 4.5rem);
+      line-height: 1.06;
+      letter-spacing: 0.01em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+
+    .text-terracotta {
+      color: var(--terracotta);
+    }
+
+    .editorial-body {
+      font-family: var(--font-sans);
+      font-size: clamp(1.06rem, 1.38vw, 1.35rem);
+      line-height: 1.55;
+      color: var(--ink);
+      font-weight: 400;
+    }
+
+    .editorial-body strong {
+      font-weight: 700;
+    }
+
+    .section-01 {
+      padding-top: clamp(72px, 9vw, 130px);
+      padding-bottom: clamp(64px, 8vw, 115px);
+    }
+
+    .section-01__header {
+      text-align: center;
+      margin-bottom: clamp(32px, 4vw, 52px);
+    }
+
+    .section-01__copy {
+      max-width: 1020px;
+      margin: 0 auto clamp(48px, 6vw, 80px);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(20px, 2.2vw, 30px);
+    }
+
+    .section-01__image {
+      width: 100%;
+      aspect-ratio: 1024 / 540;
+      margin-bottom: clamp(64px, 8vw, 110px);
+      box-shadow: 0 20px 50px rgba(24, 27, 25, 0.08);
+    }
+
+    .section-02 {
+      padding-top: clamp(16px, 2vw, 28px);
+      padding-bottom: clamp(64px, 8vw, 115px);
+    }
+
+    .section-02__grid {
+      display: grid;
+      grid-template-columns: 1.18fr 0.82fr;
+      gap: clamp(36px, 5.5vw, 84px);
+      align-items: center;
+      margin-top: clamp(28px, 4vw, 54px);
+      margin-bottom: clamp(64px, 8vw, 110px);
+    }
+
+    .section-02__content {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(22px, 2.5vw, 32px);
+    }
+
+    .section-02__heading {
+      margin-bottom: clamp(4px, 0.8vw, 12px);
+    }
+
+    .section-02__image {
+      width: 100%;
+      aspect-ratio: 390 / 509;
+      box-shadow: 0 20px 50px rgba(24, 27, 25, 0.08);
+    }
+
+    .section-03 {
+      padding-top: clamp(16px, 2vw, 28px);
+      padding-bottom: clamp(64px, 8vw, 115px);
+    }
+
+    .section-03__grid {
+      display: grid;
+      grid-template-columns: 0.88fr 1.12fr;
+      gap: clamp(36px, 5.5vw, 84px);
+      align-items: center;
+      margin-top: clamp(28px, 4vw, 54px);
+      margin-bottom: clamp(64px, 8vw, 110px);
+    }
+
+    .section-03__image {
+      width: 100%;
+      aspect-ratio: 588 / 521;
+      box-shadow: 0 20px 50px rgba(24, 27, 25, 0.08);
+    }
+
+    .section-03__content {
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: clamp(24px, 2.8vw, 36px);
+    }
+
+    .section-03__copy {
+      max-width: 680px;
+    }
+
+    .section-03__quote-wrap {
+      position: relative;
+      padding-right: clamp(20px, 2.4vw, 32px);
+      border-right: 3px solid var(--terracotta);
+      max-width: 680px;
+      margin-top: clamp(4px, 1vw, 12px);
+    }
+
+    .section-03__quote {
+      font-family: var(--font-serif);
+      font-size: clamp(1.18rem, 1.55vw, 1.52rem);
+      line-height: 1.42;
+      color: var(--terracotta);
+      font-weight: 400;
+    }
+
+    .section-04 {
+      padding-top: clamp(16px, 2vw, 28px);
+      padding-bottom: clamp(88px, 10vw, 150px);
+    }
+
+    .section-04__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 24px;
+      margin-top: clamp(18px, 2.5vw, 36px);
+      margin-bottom: clamp(32px, 4vw, 52px);
+    }
+
+    .section-04__display-title {
+      font-family: var(--font-display-italic);
+      font-style: italic;
+      font-weight: 700;
+      font-stretch: extra-condensed;
+      font-size: clamp(2.6rem, 5.4vw, 4.75rem);
+      line-height: 0.98;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+
+    .section-04__controls {
+      display: flex;
+      align-items: center;
+      gap: clamp(16px, 2vw, 28px);
+      flex-shrink: 0;
+    }
+
+    .section-04__hint {
+      font-family: var(--font-sans);
+      font-size: clamp(0.76rem, 0.95vw, 0.95rem);
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      color: var(--ink-muted);
+      text-transform: uppercase;
+    }
+
+    .carousel-nav {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .carousel-btn {
+      width: clamp(44px, 4.2vw, 54px);
+      height: clamp(44px, 4.2vw, 54px);
+      border: 1.5px solid rgba(24, 27, 25, 0.55);
+      background: transparent;
+      color: var(--ink);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color 0.3s var(--ease-out-expo), color 0.3s var(--ease-out-expo), border-color 0.3s var(--ease-out-expo), transform 0.25s var(--ease-out-expo);
+    }
+
+    .carousel-btn:hover {
+      background-color: var(--terracotta);
+      border-color: var(--terracotta);
+      color: var(--bg-sand);
+      transform: translateY(-2px);
+    }
+
+    .carousel-btn:active {
+      transform: translateY(0) scale(0.96);
+    }
+
+    .carousel-btn svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      fill: none;
+      transition: transform 0.3s var(--ease-out-expo);
+    }
+
+    .carousel-btn--prev:hover svg {
+      transform: translateX(-2px);
+    }
+
+    .carousel-btn--next:hover svg {
+      transform: translateX(2px);
+    }
+
+    .gallery-viewport {
+      position: relative;
+      width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      cursor: grab;
+      user-select: none;
+      padding-bottom: 12px;
+    }
+
+    .gallery-viewport::-webkit-scrollbar {
+      display: none;
+    }
+
+    .gallery-viewport.is-dragging {
+      cursor: grabbing;
+    }
+
+    .gallery-track {
+      display: grid;
+      grid-template-columns: 68vw 25vw 68vw 25vw 25vw;
+      gap: clamp(16px, 1.8vw, 26px);
+      min-width: max-content;
+      align-items: start;
+      transition: transform 0.6s var(--ease-out-expo);
+    }
+
+    .gallery-item {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: transform 0.45s var(--ease-out-expo), opacity 0.45s ease;
+    }
+
+    .gallery-item.is-highlighted .gallery-item__media {
+      outline: 3px solid var(--terracotta);
+      outline-offset: 4px;
+    }
+
+    .gallery-item__media {
+      width: 100%;
+      height: clamp(350px, 64vh, 560px);
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 14px 34px rgba(24, 27, 25, 0.08);
+      transition: outline 0.3s ease, box-shadow 0.4s ease;
+    }
+
+    .gallery-item__caption {
+      font-family: var(--font-sans);
+      font-size: clamp(0.78rem, 0.92vw, 0.94rem);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: var(--ink-muted);
+      text-transform: uppercase;
+      transition: color 0.3s ease;
+    }
+
+    .gallery-item:hover .gallery-item__caption, .gallery-item.is-highlighted .gallery-item__caption {
+      color: var(--terracotta);
+    }
+
+    .gallery-stat-card {
+      width: 100%;
+      height: clamp(350px, 64vh, 560px);
+      background-color: var(--terracotta);
+      color: var(--bg-sand);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px 18px;
+      box-shadow: 0 14px 34px rgba(162, 74, 50, 0.22);
+      transition: background-color 0.4s ease, transform 0.45s var(--ease-out-expo);
+      cursor: pointer;
+    }
+
+    .gallery-stat-card:hover {
+      background-color: var(--terracotta-dark);
+      transform: translateY(-4px);
+    }
+
+    .gallery-stat-card__num {
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: clamp(2.8rem, 4.2vw, 4.1rem);
+      line-height: 1.05;
+      color: var(--bg-sand);
+      margin-bottom: 10px;
+    }
+
+    .gallery-stat-card__label {
+      font-family: var(--font-sans);
+      font-size: clamp(0.72rem, 0.85vw, 0.86rem);
+      font-weight: 700;
+      line-height: 1.38;
+      letter-spacing: 0.04em;
+      color: var(--bg-sand);
+      text-transform: uppercase;
+    }
+
+    .gallery-progress {
+      margin-top: clamp(22px, 2.6vw, 34px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .gallery-progress__dots {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .gallery-dot {
+      width: 28px;
+      height: 3px;
+      background-color: rgba(24, 27, 25, 0.2);
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      transition: width 0.4s var(--ease-out-expo), background-color 0.3s ease;
+    }
+
+    .gallery-dot.is-active {
+      width: 54px;
+      background-color: var(--terracotta);
+    }
+
+    .site-footer {
+      background-color: var(--terracotta);
+      color: var(--white);
+      padding: clamp(64px, 8.5vw, 120px) 0 clamp(56px, 7.5vw, 108px);
+      min-height: clamp(480px, 56vw, 760px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .site-footer__inner {
+      width: 100%;
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 0 clamp(24px, 5vw, 72px);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      gap: clamp(64px, 10vw, 140px);
+    }
+
+    .footer-credits {
+      font-family: var(--font-sans);
+      font-size: clamp(0.78rem, 1.02vw, 1.02rem);
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      line-height: 1.6;
+      color: var(--white);
+      text-transform: uppercase;
+    }
+
+    .footer-quote {
+      font-family: var(--font-display-italic);
+      font-style: italic;
+      font-weight: 700;
+      font-stretch: extra-condensed;
+      font-size: clamp(2.85rem, 6.2vw, 5.6rem);
+      line-height: 1.06;
+      color: var(--white);
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .footer-tagline {
+      font-family: var(--font-sans);
+      font-size: clamp(0.78rem, 1.02vw, 1.02rem);
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      line-height: 1.6;
+      color: var(--white);
+      text-transform: uppercase;
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 9998;
+      background-color: rgba(24, 27, 25, 0.92);
+      backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(20px, 4vw, 56px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.45s var(--ease-out-expo);
+    }
+
+    .lightbox.is-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .lightbox__dialog {
+      position: relative;
+      max-width: 1120px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      transform: scale(0.94) translateY(16px);
+      transition: transform 0.5s var(--ease-out-expo);
+    }
+
+    .lightbox.is-open .lightbox__dialog {
+      transform: scale(1) translateY(0);
+    }
+
+    .lightbox__img {
+      max-width: 100%;
+      max-height: 78vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.55);
+      border: 1px solid rgba(231, 223, 212, 0.18);
+    }
+
+    .lightbox__bar {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      color: var(--bg-sand);
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .lightbox__close {
+      background: transparent;
+      border: 1px solid rgba(231, 223, 212, 0.45);
+      color: var(--bg-sand);
+      font-family: var(--font-sans);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 10px 18px;
+      cursor: pointer;
+      transition: background-color 0.25s ease, border-color 0.25s ease;
+    }
+
+    .lightbox__close:hover {
+      background-color: var(--terracotta);
+      border-color: var(--terracotta);
+    }
+
+    @media (max-width: 960px) {
+      .section-02__grid, .section-03__grid {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+      .section-03__content {
+        text-align: left;
+        align-items: flex-start;
+      }
+      .section-03__quote-wrap {
+        padding-right: 0;
+        padding-left: 22px;
+        border-right: none;
+        border-left: 3px solid var(--terracotta);
+      }
+      .section-04__header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .section-04__controls {
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .header-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .header-location {
+        text-align: left;
+      }
+      .hero-stat {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 12px;
+      }
+      .gallery-track {
+        grid-template-columns: 82vw 60vw 82vw 60vw 60vw;
+      }
+      .gallery-item__media, .gallery-stat-card {
+        height: clamp(300px, 55vh, 460px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="grain-overlay" aria-hidden="true"></div>
+  <div class="scroll-progress" aria-hidden="true">
+    <div class="scroll-progress__bar" id="scrollProgressBar"></div>
+  </div>
+  <div class="custom-cursor" id="customCursor" aria-hidden="true">
+    <span class="custom-cursor__label" id="customCursorLabel">LIHAT</span>
+  </div>
+
+  <header class="site-header">
+    <div class="container">
+      <div class="header-top reveal-up" style="--delay: 0.05s">
+        <div class="header-brand">
+          <span class="header-brand__title">KARMAWIBHANGGA:</span>
+          <strong class="header-brand__subtitle">RELIEF NUSANTARA YANG TERLUPAKAN</strong>
+        </div>
+        <div class="header-location">MAGELANG - JAWA TENGAH</div>
+      </div>
+      <div class="section-divider" id="headerDivider"></div>
+      <div class="header-sub reveal-up" style="--delay: 0.16s">
+        <div class="header-archive-tag">ARSIP VISUAL - ABAD KE 8-9 M</div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero-section">
+      <div class="container">
+        <div class="hero-title-block">
+          <h1 class="hero-title">
+            <span class="title-mask" style="--delay: 0.12s"><span class="title-mask__inner">RELIEF</span></span>
+            <span class="title-mask hero-title__accent" style="--delay: 0.24s"><span class="title-mask__inner">KARMAWIBHANGGA</span></span>
+          </h1>
+          <div class="hero-divider-wrap">
+            <div class="section-divider center-origin"></div>
+          </div>
+          <div class="hero-stat reveal-up" style="--delay: 0.34s">
+            <div class="hero-stat__number" data-count-to="160">160</div>
+            <p class="hero-stat__desc">RELIEF TENTANG KARMA, KEHIDUPAN, DAN AKIBAT DARI SETIAP TINDAKAN—TERTUTUP DI LAPISAN BATU SELAMA BERABAD-ABAD</p>
+          </div>
+        </div>
+      </div>
+      <div class="hero-banner">
+        <div class="media-frame" data-lightbox-src="https://images-tm.tempo.co/all/2024/08/24/868371/868371_1200.jpg" data-lightbox-caption="RELIEF KARMAWIBHANGGA">
+          <div class="media-frame__img-wrap" data-parallax="0.12">
+            <img src="https://images-tm.tempo.co/all/2024/08/24/868371/868371_1200.jpg" alt="Relief Karmawibhangga" loading="eager" />
+          </div>
+          <div class="hero-banner__gradient" aria-hidden="true"></div>
+          <div class="hero-banner__caption-wrap">
+            <div class="container">
+              <div class="hero-banner__caption reveal-up" style="--delay: 0.35s">RELIEF KARMAWIBHANGGA</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-01">
+      <div class="container">
+        <div class="section-01__header">
+          <div class="section-tag reveal-up">01 | TENTANG RELIEF</div>
+          <h2 class="section-heading-serif">
+            <span class="title-mask" style="--delay: 0.08s">
+              <span class="title-mask__inner">BATU YANG <span class="text-terracotta">MENJADI CERMIN</span></span>
+            </span>
+          </h2>
+        </div>
+        <div class="section-01__copy editorial-body">
+          <p class="reveal-up" style="--delay: 0.12s">Karmawibhangga bukan kisah para dewa. Ia merekam manusia dalam segala perilakunya. Namanya berasal dari <strong>karma</strong>, perbuatan, dan <strong>wibhangga</strong>, uraian.</p>
+          <p class="reveal-up" style="--delay: 0.2s">Adegan pasar, keluarga, perjalanan, hukuman, dan kedermawanan menunjukkan bahwa setiap niat memiliki konsekuensi.</p>
+          <p class="reveal-up" style="--delay: 0.28s">Lebih dari sekadar ajaran moral, rangkaian ini adalah catatan sosial Jawa Kuno: merekam cara orang berpakaian, bekerja, membangun rumah, memperlakukan hewan, dan hidup bersama di Nusantara.</p>
+        </div>
+        <div class="section-01__image media-frame" data-lightbox-src="https://jatengkita.id/wp-content/uploads/2026/02/Gambar-4-Panil-relief-no-86-Sumber-Dokumen-Balai-Konservasi-Borobudur-2020.png" data-lightbox-caption="01 | TENTANG RELIEF — BATU YANG MENJADI CERMIN">
+          <div class="media-frame__img-wrap" data-parallax="0.1">
+            <img src="https://jatengkita.id/wp-content/uploads/2026/02/Gambar-4-Panil-relief-no-86-Sumber-Dokumen-Balai-Konservasi-Borobudur-2020.png" alt="Batu yang Menjadi Cermin - Relief Karmawibhangga" loading="lazy" />
+          </div>
+        </div>
+        <div class="section-divider center-origin"></div>
+      </div>
+    </section>
+
+    <section class="section-02">
+      <div class="container">
+        <div class="section-tag reveal-up">02 | MISTERI STRUKTUR</div>
+        <div class="section-02__grid">
+          <div class="section-02__content">
+            <h2 class="section-heading-serif section-02__heading">
+              <span class="title-mask" style="--delay: 0.06s"><span class="title-mask__inner">MENGAPA</span></span>
+              <span class="title-mask text-terracotta" style="--delay: 0.16s"><span class="title-mask__inner">DISEMBUNYIKAN?</span></span>
+            </h2>
+            <p class="editorial-body reveal-up" style="--delay: 0.2s"><span class="text-terracotta">Kini, <strong>hanya sebagian kecil di sudut tenggara candi yang dibiarkan terbuka.</strong></span> Sisa 156 panil lainnya tertimbun ribuan kubik batu andesit yang membentuk kaki tambahan candi.</p>
+            <p class="editorial-body reveal-up" style="--delay: 0.28s">Misteri ini melahirkan dua perdebatan: <strong>apakah penutupan ini murni urusan teknis karena fondasi candi yang amblas oleh beban struktur di atasnya?</strong></p>
+            <p class="editorial-body reveal-up" style="--delay: 0.36s">Ataukah ada alasan spiritual, <strong>menyembunyikan ranah Kamadhatu (dunia nafsu) agar peziarah tidak terdistraksi dan fokus pada pencerahan suci?</strong></p>
+          </div>
+          <div class="section-02__image media-frame" data-lightbox-src="https://injourneydestination.id/wp-content/uploads/2025/12/Frame-1171276095-min.jpg" data-lightbox-caption="02 | MISTERI STRUKTUR — MENGAPA DISEMBUNYIKAN?">
+            <div class="media-frame__img-wrap" data-parallax="0.09">
+              <img src="https://injourneydestination.id/wp-content/uploads/2025/12/Frame-1171276095-min.jpg" alt="Struktur Candi Borobudur" loading="lazy" />
+            </div>
+          </div>
+        </div>
+        <div class="section-divider center-origin"></div>
+      </div>
+    </section>
+
+    <section class="section-03">
+      <div class="container">
+        <div class="section-tag reveal-up">03 | KAPSUL WAKTU</div>
+        <div class="section-03__grid">
+          <div class="section-03__image media-frame" data-lightbox-src="https://scontent.fcgk6-3.fna.fbcdn.net/v/t1.6435-9/89256862_1133392383683797_8063276210286755840_n.jpg?stp=dst-jpg_tt6&cstp=mx600x532&ctp=s600x532&_nc_cat=108&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=833d8c&_nc_ohc=cWHAwjtDGOUQ7kNvwHZRo_u&_nc_oc=AdpefEzsgFue9DpXy4vPBTPVqGLw1rIuBkD3ptX00FvYUgAV5T4LD3w8dVFCZ9MZXL2DGob18OVeWcspL0riTAh9&_nc_zt=23&_nc_ht=scontent.fcgk6-3.fna&_nc_gid=C5nZL3YQVXL4fRTQMP4gFg&_nc_ss=7b289&oh=00_AQM2bMO9cecEW6kJsw-HQF_TqnMw5vGW6hKi2UiHNpEHxg&oe=6B02B3A4" data-lightbox-caption="03 | KAPSUL WAKTU — DOKUMENTASI KASSIAN CÉPHAS (1890)">
+            <div class="media-frame__img-wrap" data-parallax="0.09">
+              <img src="https://scontent.fcgk6-3.fna.fbcdn.net/v/t1.6435-9/89256862_1133392383683797_8063276210286755840_n.jpg?stp=dst-jpg_tt6&cstp=mx600x532&ctp=s600x532&_nc_cat=108&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=833d8c&_nc_ohc=cWHAwjtDGOUQ7kNvwHZRo_u&_nc_oc=AdpefEzsgFue9DpXy4vPBTPVqGLw1rIuBkD3ptX00FvYUgAV5T4LD3w8dVFCZ9MZXL2DGob18OVeWcspL0riTAh9&_nc_zt=23&_nc_ht=scontent.fcgk6-3.fna&_nc_gid=C5nZL3YQVXL4fRTQMP4gFg&_nc_ss=7b289&oh=00_AQM2bMO9cecEW6kJsw-HQF_TqnMw5vGW6hKi2UiHNpEHxg&oe=6B02B3A4" alt="Dokumentasi Kassian Céphas 1890" loading="lazy" />
+            </div>
+          </div>
+          <div class="section-03__content">
+            <h2 class="section-heading-serif">
+              <span class="title-mask" style="--delay: 0.06s"><span class="title-mask__inner">MENUNGKAP YANG</span></span>
+              <span class="title-mask text-terracotta" style="--delay: 0.16s"><span class="title-mask__inner">TERTUTUP</span></span>
+            </h2>
+            <p class="editorial-body section-03__copy reveal-up" style="--delay: 0.22s">Kita mungkin telah kehilangan kesempatan untuk menelusuri galeri batu ini secara utuh. Namun pada tahun 1890, saat kaki candi sempat dibongkar sementara, <strong>fotografer Kassian Céphas berhasil mengabadikan seluruh 160 panil tersebut.</strong></p>
+            <blockquote class="section-03__quote-wrap reveal-up" style="--delay: 0.32s">
+              <p class="section-03__quote">"Dokumentasi visual itu kini menjadi satu-satunya jendela utuh menuju peradaban masa lampau, mengingatkan kita bahwa apa yang kita tabur, itulah yang akan kita tuai."</p>
+            </blockquote>
+          </div>
+        </div>
+        <div class="section-divider center-origin"></div>
+      </div>
+    </section>
+
+    <section class="section-04">
+      <div class="container">
+        <div class="section-tag reveal-up">04 | FRAGMEN VISUAL</div>
+        <div class="section-04__header">
+          <h2 class="section-04__display-title">
+            <span class="title-mask" style="--delay: 0.06s"><span class="title-mask__inner">Membaca batu, adegan</span></span>
+            <span class="title-mask" style="--delay: 0.16s"><span class="title-mask__inner">demi adegan</span></span>
+          </h2>
+          <div class="section-04__controls reveal-up" style="--delay: 0.22s">
+            <span class="section-04__hint">GESER ATAU PENCET TOMBOL UNTUK MENJAJAH</span>
+            <div class="carousel-nav">
+              <button type="button" class="carousel-btn carousel-btn--prev" id="galleryPrevBtn" aria-label="Sebelumnya">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M19 12H5M11 6l-6 6 6 6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </button>
+              <button type="button" class="carousel-btn carousel-btn--next" id="galleryNextBtn" aria-label="Selanjutnya">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="gallery-viewport" id="galleryViewport" data-cursor-drag>
+          <div class="gallery-track" id="galleryTrack">
+            <article class="gallery-item reveal-up" style="--delay: 0.1s" data-gallery-index="0">
+              <div class="gallery-item__media media-frame" data-lightbox-src="https://images.unsplash.com/photo-1643760512932-ad6583917711?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" data-lightbox-caption="KISAH YANG DIPAHAT">
+                <div class="media-frame__img-wrap">
+                  <img src="https://images.unsplash.com/photo-1643760512932-ad6583917711?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Kisah yang Dipahat" loading="lazy" />
+                </div>
+              </div>
+              <div class="gallery-item__caption">KISAH YANG DIPAHAT</div>
+            </article>
+            <article class="gallery-item reveal-up" style="--delay: 0.18s" data-gallery-index="1">
+              <div class="gallery-item__media media-frame" data-lightbox-src="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/49/Tara_Borobudur_1.jpg/960px-Tara_Borobudur_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail&_=20111031192933" data-lightbox-caption="DETAIL KEHIDUPAN">
+                <div class="media-frame__img-wrap">
+                  <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/49/Tara_Borobudur_1.jpg/960px-Tara_Borobudur_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail&_=20111031192933" alt="Detail Kehidupan" loading="lazy" />
+                </div>
+              </div>
+              <div class="gallery-item__caption">DETAIL KEHIDUPAN</div>
+            </article>
+            <article class="gallery-item reveal-up" style="--delay: 0.26s" data-gallery-index="2">
+              <div class="gallery-item__media media-frame" data-lightbox-src="https://images.unsplash.com/photo-1780771496527-5bc7e0418b2a?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D" data-lightbox-caption="LORONG NARATIF">
+                <div class="media-frame__img-wrap">
+                  <img src="https://images.unsplash.com/photo-1780771496527-5bc7e0418b2a?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D" alt="Lorong Naratif" loading="lazy" />
+                </div>
+              </div>
+              <div class="gallery-item__caption">LORONG NARATIF</div>
+            </article>
+            <article class="gallery-item reveal-up" style="--delay: 0.34s" data-gallery-index="3">
+              <div class="gallery-item__media media-frame" data-lightbox-src="https://archipel360.com/wp-content/uploads/2024/08/Java-Temple-Candih-Sukuh-3-339x462.jpg" data-lightbox-caption="JEJAK PEMAHAT">
+                <div class="media-frame__img-wrap">
+                  <img src="https://archipel360.com/wp-content/uploads/2024/08/Java-Temple-Candih-Sukuh-3-339x462.jpg" alt="Jejak Pemahat" loading="lazy" />
+                </div>
+              </div>
+              <div class="gallery-item__caption">JEJAK PEMAHAT</div>
+            </article>
+            <article class="gallery-item reveal-up" style="--delay: 0.42s" data-gallery-index="4">
+              <div class="gallery-stat-card" data-lightbox-src="https://images-tm.tempo.co/all/2024/08/24/868371/868371_1200.jpg" data-lightbox-caption="160 PANEL DALAM SATU RANGKAIAN — RELIEF KARMAWIBHANGGA">
+                <div class="gallery-stat-card__num" data-count-to="160">160</div>
+                <div class="gallery-stat-card__label">PANEL DALAM SATU RANGKAIAN</div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="gallery-progress reveal-up" style="--delay: 0.38s">
+          <div class="gallery-progress__dots" id="galleryDots" role="tablist" aria-label="Pilih fragmen visual">
+            <button type="button" class="gallery-dot is-active" data-dot-index="0" aria-label="Kisah yang Dipahat"></button>
+            <button type="button" class="gallery-dot" data-dot-index="1" aria-label="Detail Kehidupan"></button>
+            <button type="button" class="gallery-dot" data-dot-index="2" aria-label="Lorong Naratif"></button>
+            <button type="button" class="gallery-dot" data-dot-index="3" aria-label="Jejak Pemahat"></button>
+            <button type="button" class="gallery-dot" data-dot-index="4" aria-label="160 Panel dalam Satu Rangkaian"></button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <div class="footer-credits reveal-up" style="--delay: 0.08s">DIBUAT: ADO, MELODY, HATTA | PROYEK PABP BUDDHA | ASSESMENT OBJECTIVE 1</div>
+      <blockquote class="footer-quote">
+        <span class="title-mask" style="--delay: 0.14s"><span class="title-mask__inner">“Yang tersembunyi bukan</span></span>
+        <span class="title-mask" style="--delay: 0.24s"><span class="title-mask__inner">berarti hilang.”</span></span>
+      </blockquote>
+      <div class="footer-tagline reveal-up" style="--delay: 0.3s">WARISAN YANG TERUS DIBACA, DIJAGA, DAN DIMAKNAI ULANG</div>
+    </div>
+  </footer>
+
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="lightbox__dialog">
+      <img class="lightbox__img" id="lightboxImg" src="" alt="" />
+      <div class="lightbox__bar">
+        <span id="lightboxCaption"></span>
+        <button type="button" class="lightbox__close" id="lightboxClose">TUTUP [ESC]</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      'use strict';
+      
+      const lerp = (start, end, factor) => start + (end - start) * factor;
+      const clamp = (val, min, max) => Math.min(Math.max(val, min), max);
+      
+      const revealSelectors = ['.reveal-up', '.title-mask', '.section-divider', '.media-frame'].join(', ');
+      const revealElements = document.querySelectorAll(revealSelectors);
+      
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { root: null, rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+      
+      requestAnimationFrame(() => {
+        revealElements.forEach((el) => {
+          revealObserver.observe(el);
+        });
+      });
+      
+      const counterElements = document.querySelectorAll('[data-count-to]');
+      const animateCounter = (el) => {
+        const target = parseInt(el.getAttribute('data-count-to'), 10) || 160;
+        const duration = 1800;
+        const startTime = performance.now();
+        const step = (now) => {
+          const elapsed = now - startTime;
+          const progress = clamp(elapsed / duration, 0, 1);
+          const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+          const current = Math.round(eased * target);
+          el.textContent = current.toString();
+          if (progress < 1) {
+            requestAnimationFrame(step);
+          } else {
+            el.textContent = target.toString();
+          }
+        };
+        requestAnimationFrame(step);
+      };
+      
+      const counterObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animateCounter(entry.target);
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.35 });
+      
+      counterElements.forEach((el) => counterObserver.observe(el));
+      
+      const progressBar = document.getElementById('scrollProgressBar');
+      const parallaxItems = Array.from(document.querySelectorAll('[data-parallax]')).map((el) => ({
+        el,
+        speed: parseFloat(el.getAttribute('data-parallax')) || 0.1,
+        currentY: 0,
+        targetY: 0
+      }));
+      
+      let currentScroll = window.scrollY;
+      let targetScroll = window.scrollY;
+      window.addEventListener('scroll', () => { targetScroll = window.scrollY; }, { passive: true });
+      
+      function updateParallaxAndScroll() {
+        currentScroll = lerp(currentScroll, targetScroll, 0.12);
+        if (progressBar) {
+          const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+          const pct = clamp((currentScroll / maxScroll) * 100, 0, 100);
+          progressBar.style.width = `${pct.toFixed(2)}%`;
+        }
+        const viewportHeight = window.innerHeight;
+        parallaxItems.forEach((item) => {
+          const rect = item.el.parentElement.getBoundingClientRect();
+          if (rect.bottom > -200 && rect.top < viewportHeight + 200) {
+            const centerOffset = rect.top + rect.height * 0.5 - viewportHeight * 0.5;
+            item.targetY = -centerOffset * item.speed;
+            item.currentY = lerp(item.currentY, item.targetY, 0.12);
+            item.el.style.transform = `translate3d(0, ${item.currentY.toFixed(2)}px, 0)`;
+          }
+        });
+        requestAnimationFrame(updateParallaxAndScroll);
+      }
+      
+      requestAnimationFrame(updateParallaxAndScroll);
+      
+      const galleryViewport = document.getElementById('galleryViewport');
+      const galleryItems = Array.from(document.querySelectorAll('.gallery-item'));
+      const galleryDots = Array.from(document.querySelectorAll('.gallery-dot'));
+      const prevBtn = document.getElementById('galleryPrevBtn');
+      const nextBtn = document.getElementById('galleryNextBtn');
+      let activeGalleryIndex = 0;
+      let isPointerDown = false;
+      let startX = 0;
+      let scrollStartLeft = 0;
+      let dragDistance = 0;
+      
+      function setActiveGalleryItem(index, shouldScroll = true) {
+        const total = galleryItems.length;
+        activeGalleryIndex = ((index % total) + total) % total;
+        galleryItems.forEach((item, idx) => {
+          item.classList.toggle('is-highlighted', idx === activeGalleryIndex);
+        });
+        galleryDots.forEach((dot, idx) => {
+          dot.classList.toggle('is-active', idx === activeGalleryIndex);
+        });
+        if (shouldScroll && galleryViewport && galleryItems[activeGalleryIndex]) {
+          const targetCard = galleryItems[activeGalleryIndex];
+          const viewportRect = galleryViewport.getBoundingClientRect();
+          const cardRect = targetCard.getBoundingClientRect();
+          const offset = cardRect.left - viewportRect.left + galleryViewport.scrollLeft - (viewportRect.width - cardRect.width) * 0.5;
+          galleryViewport.scrollTo({ left: Math.max(0, offset), behavior: 'smooth' });
+        }
+      }
+      
+      if (prevBtn) {
+        prevBtn.addEventListener('click', () => { setActiveGalleryItem(activeGalleryIndex - 1, true); });
+      }
+      if (nextBtn) {
+        nextBtn.addEventListener('click', () => { setActiveGalleryItem(activeGalleryIndex + 1, true); });
+      }
+      galleryDots.forEach((dot) => {
+        dot.addEventListener('click', () => {
+          const idx = parseInt(dot.getAttribute('data-dot-index'), 10) || 0;
+          setActiveGalleryItem(idx, true);
+        });
+      });
+      
+      if (galleryViewport) {
+        galleryViewport.addEventListener('mousedown', (e) => {
+          isPointerDown = true;
+          dragDistance = 0;
+          startX = e.pageX - galleryViewport.offsetLeft;
+          scrollStartLeft = galleryViewport.scrollLeft;
+          galleryViewport.classList.add('is-dragging');
+        });
+        window.addEventListener('mouseup', () => {
+          if (!isPointerDown) return;
+          isPointerDown = false;
+          galleryViewport.classList.remove('is-dragging');
+        });
+        galleryViewport.addEventListener('mousemove', (e) => {
+          if (!isPointerDown) return;
+          e.preventDefault();
+          const x = e.pageX - galleryViewport.offsetLeft;
+          const walk = (x - startX) * 1.35;
+          dragDistance = Math.abs(walk);
+          galleryViewport.scrollLeft = scrollStartLeft - walk;
+        });
+      }
+      
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImg = document.getElementById('lightboxImg');
+      const lightboxCaption = document.getElementById('lightboxCaption');
+      const lightboxClose = document.getElementById('lightboxClose');
+      
+      function openLightbox(src, caption) {
+        if (!lightbox || !lightboxImg) return;
+        lightboxImg.src = src;
+        lightboxImg.alt = caption || 'Relief Karmawibhangga';
+        if (lightboxCaption) { lightboxCaption.textContent = caption || ''; }
+        lightbox.classList.add('is-open');
+        lightbox.setAttribute('aria-hidden', 'false');
+      }
+      
+      function closeLightbox() {
+        if (!lightbox) return;
+        lightbox.classList.remove('is-open');
+        lightbox.setAttribute('aria-hidden', 'true');
+      }
+      
+      document.querySelectorAll('[data-lightbox-src]').forEach((trigger) => {
+        trigger.addEventListener('click', (e) => {
+          if (dragDistance > 10) { e.preventDefault(); return; }
+          const src = trigger.getAttribute('data-lightbox-src');
+          const caption = trigger.getAttribute('data-lightbox-caption');
+          const parentGalleryItem = trigger.closest('.gallery-item');
+          if (parentGalleryItem) {
+            const idx = parseInt(parentGalleryItem.getAttribute('data-gallery-index'), 10);
+            if (!Number.isNaN(idx)) { setActiveGalleryItem(idx, false); }
+          }
+          if (src) { openLightbox(src, caption); }
+        });
+      });
+      
+      if (lightboxClose) { lightboxClose.addEventListener('click', closeLightbox); }
+      
+      if (lightbox) {
+        lightbox.addEventListener('click', (e) => {
+          if (e.target === lightbox) { closeLightbox(); }
+        });
+      }
+      
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeLightbox();
+        } else if (e.key === 'ArrowRight' && !lightbox?.classList.contains('is-open')) {
+          setActiveGalleryItem(activeGalleryIndex + 1, true);
+        } else if (e.key === 'ArrowLeft' && !lightbox?.classList.contains('is-open')) {
+          setActiveGalleryItem(activeGalleryIndex - 1, true);
+        }
+      });
+      
+      const cursor = document.getElementById('customCursor');
+      const cursorLabel = document.getElementById('customCursorLabel');
+      
+      if (cursor && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        let mouseX = -100;
+        let mouseY = -100;
+        let cursorX = -100;
+        let cursorY = -100;
+        window.addEventListener('mousemove', (e) => {
+          mouseX = e.clientX;
+          mouseY = e.clientY;
+          cursor.classList.add('is-active');
+        }, { passive: true });
+        
+        document.addEventListener('mouseleave', () => { cursor.classList.remove('is-active'); });
+        
+        document.querySelectorAll('[data-lightbox-src]').forEach((el) => {
+          el.addEventListener('mouseenter', () => {
+            cursor.classList.add('is-hover-image');
+            if (cursorLabel) cursorLabel.textContent = '';
+          });
+          el.addEventListener('mouseleave', () => {
+            cursor.classList.remove('is-hover-image');
+          });
+        });
+        
+        const renderCursor = () => {
+          cursorX = lerp(cursorX, mouseX, 0.18);
+          cursorY = lerp(cursorY, mouseY, 0.18);
+          cursor.style.transform = `translate3d(${cursorX.toFixed(1)}px, ${cursorY.toFixed(1)}px, 0)`;
+          requestAnimationFrame(renderCursor);
+        };
+        requestAnimationFrame(renderCursor);
+      }
+    })();
+  </script>
+</body>
+</html>
